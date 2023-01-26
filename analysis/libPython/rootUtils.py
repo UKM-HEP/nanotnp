@@ -1,5 +1,5 @@
 import ROOT as rt
-import math
+import math, ctypes
 from libPython.fitUtils import *
 #from fitSimultaneousUtils import *
 
@@ -71,8 +71,10 @@ def makePassFailHistograms(sample, flag, bindef, var):
 
         bin1 = 1
         bin2 = hPass[ib].GetXaxis().GetNbins()
-        epass = rt.Double(-1.0)
-        efail = rt.Double(-1.0)
+        epass = ctypes.c_double(-1.)
+        efail = ctypes.c_double(-1.)
+        #epass = -1.
+        #efail = -1.
         passI = hPass[ib].IntegralAndError(bin1, bin2, epass)
         failI = hFail[ib].IntegralAndError(bin1, bin2, efail)
         eff = 0
@@ -80,11 +82,11 @@ def makePassFailHistograms(sample, flag, bindef, var):
         if passI > 0:
             itot = (passI+failI)
             eff = passI / (passI+failI)
-            e_eff = math.sqrt(passI*passI*efail*efail +
-                              failI*failI*epass*epass) / (itot*itot)
+            e_eff = math.sqrt(passI*passI*efail.value*efail.value +
+                              failI*failI*epass.value*epass.value) / (itot*itot)
         print(cuts)
         print('    ==> pass: %.1f +/- %.1f ; fail : %.1f +/- %.1f : eff: %1.3f +/- %1.3f' %
-              (passI, epass, failI, efail, eff, e_eff))
+              (passI, epass.value, failI, efail.value, eff, e_eff))
     outfile.Close()
 
 
@@ -121,8 +123,10 @@ def getAllEffi(info, bindef):
         hF = rootfile.Get('%s_Fail' % bindef['name'])
         bin1 = 1
         bin2 = hP.GetXaxis().GetNbins()
-        eP = rt.Double(-1.0)
-        eF = rt.Double(-1.0)
+        eP = ctypes.c_double(-1.)
+        eF = ctypes.c_double(-1.)
+        #eP = -1.
+        #eF = -1.
         nP = hP.IntegralAndError(bin1, bin2, eP)
         nF = hF.IntegralAndError(bin1, bin2, eF)
 
@@ -137,8 +141,10 @@ def getAllEffi(info, bindef):
         hF = rootfile.Get('%s_Fail' % bindef['name'])
         bin1 = 1
         bin2 = hP.GetXaxis().GetNbins()
-        eP = rt.Double(-1.0)
-        eF = rt.Double(-1.0)
+        eP = ctypes.c_double(-1.)
+        eF = ctypes.c_double(-1.)
+        #eP = -1.
+        #eF = -1.
         nP = hP.IntegralAndError(bin1, bin2, eP)
         nF = hF.IntegralAndError(bin1, bin2, eF)
 
@@ -153,8 +159,10 @@ def getAllEffi(info, bindef):
         hF = rootfile.Get('%s_Fail' % bindef['name'])
         bin1 = 1
         bin2 = hP.GetXaxis().GetNbins()
-        eP = rt.Double(-1.0)
-        eF = rt.Double(-1.0)
+        eP = ctypes.c_double(-1.)
+        eF = ctypes.c_double(-1.)
+        #eP = -1.
+        #eF = -1.
         nP = hP.IntegralAndError(bin1, bin2, eP)
         nF = hF.IntegralAndError(bin1, bin2, eF)
 
