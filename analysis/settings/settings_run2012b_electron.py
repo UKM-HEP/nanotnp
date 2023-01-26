@@ -3,12 +3,12 @@ import os
 ########## General settings
 #############################################################
 # Name of your study
-name = "run2012a_electron"
+name = "run2012b_electron"
 
 # flag to be Tested
 flags = {
-    'passingMediumWPElectron' : '({0}) && (Probe_mvaSpring16GP_WP90 == 1) && ( {1} || {2} )',
-    'passingSoftWPMuon'       : ''
+    'passingMediumWPElectron' : 'Probe_wp == 3',
+    'passingSoftWPMuon'       : 'Probe_wp == 3'
 }
 
 # output destination
@@ -23,10 +23,10 @@ import etc.inputs.tnpOpenData as tnpSamples
 tnpTreeDir = 'events'
 
 samplesDef = {
-    'data'   : tnpSamples.run2012a_electron['Run2012A_SingleElectron'].clone(),
-    'mcNom'  : tnpSamples.run2012a_electron['DYJetsToLL_M-50_TuneZ2Star'].clone(),
+    'data'   : tnpSamples.run2012b_electron['Run2012B_SingleElectron'].clone(),
+    'mcNom'  : tnpSamples.run2012b_electron['DYJetsToLL_M-50_TuneZ2Star'].clone(),
     #'mcAlt'  : tnpSamples.nanov7_16['DYJetsToLL_M-50'].clone(),
-    'tagSel' : tnpSamples.run2012a_electron['DYJetsToLL_M-50_TuneZ2Star'].clone(),
+    'tagSel' : tnpSamples.run2012b_electron['DYJetsToLL_M-50_TuneZ2Star'].clone(),
 }
 
 ## some sample-based cuts... general cuts defined here after
@@ -56,7 +56,7 @@ if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_weight(weightName)
 ########## bining definition  [can be nD bining]
 #############################################################
 biningDef = [
-    { 'var' : 'Probe_sc_eta' , 'type': 'float', 'bins': [ -2.5 , -2.0 , -1.566 , -1.442 , -0.8 , 0.0 , 0.8 , 1.442 , 1.566 , 2.0 , 2.5 ] },
+    { 'var' : 'Probe_eta' , 'type': 'float', 'bins': [ -2.5 , -2.0 , -1.566 , -1.442 , -0.8 , 0.0 , 0.8 , 1.442 , 1.566 , 2.0 , 2.5 ] },
     { 'var' : 'Probe_pt' , 'type': 'float', 'bins': [ 10 , 15 , 20 , 35 , 50 , 90 , 150 , 500 ] },
 ]
 
@@ -64,7 +64,7 @@ biningDef = [
 ########## Cuts definition for all samples
 #############################################################
 ### cut
-cutBase   = 'Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_charge*Probe_charge < 0'
+cutBase   = 'Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0'
 
 # can add addtionnal cuts for some bins (first check bin number using tnpEGM --checkBins)
 #additionalCuts = { 
