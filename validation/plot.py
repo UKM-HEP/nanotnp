@@ -19,25 +19,21 @@ ROOT.gStyle.SetOptStat(0)
 # the lower edge and the upper edge of the histogram.
 
 ranges = {
-    "Tag_pt"     : [ ( 50 , 0.   , 500 ) , "Tagged Electron p_{T} [GeV/c^2]" ],
-    "Probe_pt"   : [ ( 50 , 0.   , 500 ) , "Probed Electron #eta" ] ,
-    "Tag_eta"    : [ ( 120 , -3.0 , 3.0 ) , "Tagged Electron #eta" ] ,
-    "Probe_eta"  : [ ( 120 , -3.0 , 3.0 ) , "Probed Electron #eta" ] ,
-    #"pair_pt"        : [ ( 50 , 0.   , 500 ) , "pair p_{T} [GeV/c^2]" ] ,
-    #"pair_eta"       : [ ( 40 , -10.0 , 10.0 ) , "pair #eta" ] ,
-    "pair_mass"      : [ ( 80 , 50   , 130 ) , "Mass (ll) [GeV/c]" ] ,
+    "Tag_pt"     : [ ( 50 , 0.   , 500 ) , "Tagged XXX p_{T} [GeV/c^{2}]" ],
+    "Probe_pt"   : [ ( 50 , 0.   , 500 ) , "Probed XXX p_{T} [GeV/c^{2}]" ] ,
+    "Tag_eta"    : [ ( 120 , -3.0 , 3.0 ) , "Tagged XXX #eta" ] ,
+    "Probe_eta"  : [ ( 120 , -3.0 , 3.0 ) , "Probed XXX #eta" ] ,
+    "pair_mass"      : [ ( 80 , 50   , 130 ) , "Mass (XX) [GeV/c]" ] ,
     }
 
 ### RDataframe
 # Book a histogram for a specific variable
-def bookHistogram( df , variable , range_ , lumi=None ):
-    #match="tag_PromptGenLepMatch*probe_PromptGenLepMatch"
-    #passingtagEleTightHWW==1
+def bookHistogram( df , variable , range_ , factor=None ):
     match="mcTrue*weights" #*tag_TightHWW_SF*probe_TightHWW_SF"
     probe="1==1"
     flag="1==1"
     
-    WEIGHT = match + "*" + lumi if lumi is not None else "1."
+    WEIGHT = match + "*" + factor if factor is not None else "1."
     
     return df.Define( "plotweights" , WEIGHT )\
              .Filter( "Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0" , "Nominal cut" )\
@@ -52,19 +48,28 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument( '-n' , '--name' , type=str , help='DATA Name' )
     parser.add_argument( '-l' , '--lumi' , type=str , help='total luminosity' )
+    parser.add_argument( '-f' , '--factor' , type=str , help='factor in fraction' )
+    parser.add_argument( '-e' , '--energy' , type=str , help='center of mass energy' )
+    parser.add_argument( '-p' , '--particle' , type=str , help='particle type' )
     parser.add_argument( '-r' , '--rootfiles' , type=str , nargs='+', help='path/root file', required=True )
 
     args = parser.parse_args()
     Name_ = args.name
     Lumi_ = args.lumi
+    Factor_ = args.factor
+    Energy_ = args.energy
+    Particle_ = "e^{+}e^{-}" if args.particle == "e" else "$mu^{+}#mu^{-}"
     file_ = args.rootfiles
     Mc_ = list(filter( lambda x : 'DY' in x.split('/')[-1] , file_ ))
     Data_ = list( set(file_) - set(Mc_) )
 
-    print( 'NAME : ', Name_ )
-    print( 'Lumi : ', Lumi_ )
-    print( 'DATA : ', Data_ )
-    print( 'MC   : ', Mc_   )
+    print( 'NAME     : ', Name_ )
+    print( 'Lumi     : ', Lumi_ )
+    print( 'Factor   : ', Factor_ )
+    print( 'Energy   : ', Energy_ )
+    print( 'Particle : ', Particle_ )
+    print( 'DATA     : ', Data_ )
+    print( 'MC       : ', Mc_   )
 
     # apply selection, book histogram
     outpath = './results/%s' %Name_
@@ -84,7 +89,7 @@ if __name__ == "__main__":
         # Load skimmed dataset and apply baseline selection (if any)
         df = ROOT.ROOT.RDataFrame( 'events' , imc )
         # Book histogram
-        for variable in variables: hists[variable] = bookHistogram( df , variable , ranges[variable][0] , Lumi_ )
+        for variable in variables: hists[variable] = bookHistogram( df , variable , ranges[variable][0] , Factor_ )
 
         # Write histograms to output file
         for variable in variables: hists[variable].SetName( "{}_{}".format( mcName , variable ) ); hists[variable].Write()
@@ -99,8 +104,6 @@ if __name__ == "__main__":
     # Write histograms to output file
     for variable in variables: hists[variable].SetName( "{}_{}".format( Name_ , variable ) ); hists[variable].Write()
     
-    #tfile = ROOT.TFile( "./results/UL2018_ABCD/histo_UL2018_ABCD.root" , "READ" )
-    
     # plot!
     for imc in Mc_:
         mcName = imc.split('/')[-1].split('.root')[0]
@@ -110,6 +113,12 @@ if __name__ == "__main__":
         for variable in variables:
             hist_mc = getHistogram( tfile , "{}_{}".format( mcName , variable ) )
             hist_data = getHistogram( tfile , "{}_{}".format( Name_ , variable ) )
-            histo1D( hist_data , hist_mc , out_ , variable , ranges[variable][1] , Lumi_ , 4 , True ) #False if 'eta' in variable else True )
+            #hdata , hmc , output , variable , xlabel , ylabel , scale , ratio=0 , logy=False , com="7TeV" ):
+            pervalue = (ranges[variable][0][2] - ranges[variable][0][1])/ranges[variable][0][0]
+            if variable == "pair_mass":
+                ranges[variable][1] = ranges[variable][1].replace('XX', Particle_)
+            else:
+                ranges[variable][1] = ranges[variable][1].replace('XXX', "Electron" if Particle_ == "e^{+}e^{-}" else "Muon" )
+            histo1D( hist_data , hist_mc , out_ , variable , ranges[variable][1] , "Events / %.0f GeV" %( pervalue ) , Lumi_ , 4 , True , Energy_ , Particle_ ) #False if 'eta' in variable else True )
 
     tfile.Close()

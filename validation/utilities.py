@@ -22,15 +22,30 @@ def setBotStyle(h, r=4, fixRange=True):
                 h.SetBinContent(i, -1.e-6)
 pass
 
-def drawCMS(lumi, text, onTop=False):
+def drawLine(x1, y1, x2, y2):
+    line = TLine(x1, y1, x2, y2)
+    line.SetLineStyle(2)
+    line.SetLineWidth(2)
+    line.Draw()
+    return line
+
+def drawText(t, center=False):
+    latex = TLatex()
+    latex.SetNDC()
+    latex.SetTextSize(0.04)
+    latex.SetTextFont(42)
+    #latex.SetTextAlign(33)
+    latex.DrawLatex(0.15 if not center else 0.3, 0.95, t)
+
+def drawCMS(lumi, text, com_, onTop=False ):
     latex = TLatex()
     latex.SetNDC()
     latex.SetTextSize(0.04)
     latex.SetTextColor(1)
     latex.SetTextFont(42)
     latex.SetTextAlign(33)
-    if (type(lumi) is float or type(lumi) is int) and float(lumi) > 0: latex.DrawLatex(0.95, 0.985, "%.1f fb^{-1}  (13 TeV)" % (float(lumi)/1000.))
-    elif type(lumi) is str: latex.DrawLatex(0.95, 0.985, "%s fb^{-1}  (13 TeV)" % lumi)
+    if (type(lumi) is float or type(lumi) is int) and float(lumi) > 0: latex.DrawLatex(0.95, 0.985, "%.1f fb^{-1}  (%s)" % (float(lumi)/1000., com_) )
+    elif type(lumi) is str: latex.DrawLatex(0.95, 0.985, "%s fb^{-1}  (%s)" %( lumi, com_ ) )
     if not onTop: latex.SetTextAlign(11)
     latex.SetTextFont(62)
     latex.SetTextSize(0.05 if len(text)>0 else 0.06)
@@ -137,7 +152,7 @@ def getHistogram( tfile , name ):
     return h
 pass
 
-def histo1D( hdata , hmc , output , variable , xlabel , scale , ratio=0 , logy=False ):
+def histo1D( hdata , hmc , output , variable , xlabel , ylabel , scale , ratio , logy , com , sublabel ):
 
     hist={}
     hist['DATA'] = hdata
@@ -172,7 +187,8 @@ def histo1D( hdata , hmc , output , variable , xlabel , scale , ratio=0 , logy=F
         addOverflow(hist[s], False) # Add overflow
 
     # stack
-    bkg = THStack('bkg', ";"+xlabel+";"+hist['BkgSum'].GetYaxis().GetTitle())
+    #bkg = THStack('bkg', ";"+xlabel+";"+hist['BkgSum'].GetYaxis().GetTitle())
+    bkg = THStack('bkg', ";"+xlabel+";"+ylabel )
     # ADD ALL BKG
     bkg.Add(hist['DY'])
 
@@ -184,7 +200,8 @@ def histo1D( hdata , hmc , output , variable , xlabel , scale , ratio=0 , logy=F
     leg.SetFillColor(0)
     leg.SetTextSize(0.03)
     leg.AddEntry( hist['DATA'] , 'Data' , "pl" )
-    leg.AddEntry( hist['DY'] , 'DY_LO' if 'LO' in hist['DY'].GetName() else 'DY_NLO' , "f")
+    #leg.AddEntry( hist['DY'] , 'DY_LO' if 'LO' in hist['DY'].GetName() else 'DY_NLO' , "f")
+    leg.AddEntry( hist['DY'] , hist['DY'].GetName().split('_')[0] , "f")
     c1 = TCanvas("c1", list(hist.values())[-1].GetXaxis().GetTitle(), 800, 800 if ratio else 600 )
 
     #Ratio pad
@@ -256,8 +273,11 @@ def histo1D( hdata , hmc , output , variable , xlabel , scale , ratio=0 , logy=F
     gPad.Modified()
     gPad.Update()
     c1.cd(1)
-    drawCMS( "%s" %scale, "Object Study")
-
+    drawCMS( "%s" %scale, "CMS Open Data @ UKM", com )
+    if com=="7TeV":
+        drawText("J\#Psi #rightarrow "+sublabel,True)
+    else:
+        drawText("Z^{0} #rightarrow "+sublabel,True)
     c1.Update()
 
     print( "{}/{}.pdf".format( output , variable) )
