@@ -13,21 +13,6 @@ ROOT.ROOT.EnableImplicitMT(10)
 ROOT.TH1.SetDefaultSumw2()
 ROOT.gStyle.SetOptStat(0)
 
-# Declare human readable label for each variable
-#labels = {
-#    "tag_Ele_pt"     : "Tagged Electron p_{T} [GeV/c^2]",
-#    "probe_Ele_pt"   : "Probed Electron p_{T} [GeV/c^2]",
-#    "tag_Ele_eta"    : "Tagged Electron #eta",
-#    "probe_Ele_eta"  : "Probed Electron #eta",
-#    "pair_pt"        : "pair p_{T} [GeV/c^2]",
-#    "pair_eta"       : "pair #eta",
-#    "pair_mass"      : "Mass (ll) [GeV/c]",
-#    "passingtagEleTightHWW" : "Tagged Electron TightHWW",
-#    "passingprobeEleTightHWW" : "Probe Electron TightHWW",
-#    "passingprobeElettHMVA" : "Probe Electron ttHMVA_0p7",
-#    "passingprobeTightHWW_ttHMVA_0p7" : "Probe Electron TightHWW_ttHMVA_0p7",
-#    }
-
 # Declare range of the histogram for each variables
 # Each entry in the dictionary contains of the variable name as key and a tuple
 # specifying the histogram layout as value. The tuple sets the number of bins,
@@ -41,27 +26,19 @@ ranges = {
     #"pair_pt"        : [ ( 50 , 0.   , 500 ) , "pair p_{T} [GeV/c^2]" ] ,
     #"pair_eta"       : [ ( 40 , -10.0 , 10.0 ) , "pair #eta" ] ,
     "pair_mass"      : [ ( 80 , 50   , 130 ) , "Mass (ll) [GeV/c]" ] ,
-    #"Probe_mva"      : [ ( 50 , 0.   , 1. ) , "Probe MVA Score" ] ,
-    #"passingtagEleTightHWW" : ( 2 , -0.5 , 0.5 ),
-    #"passingprobeEleTightHWW" : ( 2 , -0.5 , 0.5 ),
-    #"passingprobeElettHMVA" : ( 2 , -0.5 , 1.5 ),
-    #"passingprobeTightHWW_ttHMVA_0p7" : ( 2 , -0.5 , 1.5 ),
     }
 
 ### RDataframe
 # Book a histogram for a specific variable
 def bookHistogram( df , variable , range_ , lumi=None ):
-    ##.Filter("probe_Ele_pt > 35 && abs(probe_Ele_eta) < 2.17","high pt low eta probe ele")\
     #match="tag_PromptGenLepMatch*probe_PromptGenLepMatch"
     #passingtagEleTightHWW==1
     match="mcTrue*weights" #*tag_TightHWW_SF*probe_TightHWW_SF"
-    #probe="probe_Ele_eta > 0 && probe_Ele_eta < 0.8 && probe_Ele_pt > 50 && probe_Ele_pt < 100"
     probe="1==1"
-    #flag="passingprobeEleTightHWW==1"
     flag="1==1"
-    # what is plotweight
+    
     WEIGHT = match + "*" + lumi if lumi is not None else "1."
-    print( "WEIGHT : ", WEIGHT )
+    
     return df.Define( "plotweights" , WEIGHT )\
              .Filter( "Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0" , "Nominal cut" )\
              .Filter( flag , "passing flag" )\
