@@ -51,6 +51,7 @@ if __name__ == "__main__":
     parser.add_argument( '-f' , '--factor' , type=str , help='factor in fraction' )
     parser.add_argument( '-e' , '--energy' , type=str , help='center of mass energy' )
     parser.add_argument( '-p' , '--particle' , type=str , help='particle type' )
+    parser.add_argument( '-j', '--jpsi', action='store_true', default=False)
     parser.add_argument( '-r' , '--rootfiles' , type=str , nargs='+', help='path/root file', required=True )
 
     args = parser.parse_args()
@@ -59,6 +60,7 @@ if __name__ == "__main__":
     Factor_ = args.factor
     Energy_ = args.energy
     Particle_ = "e^{+}e^{-}" if args.particle == "e" else "$mu^{+}#mu^{-}"
+    if args.jpsi: ranges["pair_mass"] = [ ( 80 , 1   , 7 ) , "Mass (XX) [GeV/c]" ]
     file_ = args.rootfiles
     Mc_ = list(filter( lambda x : 'DY' in x.split('/')[-1] , file_ ))
     Data_ = list( set(file_) - set(Mc_) )
