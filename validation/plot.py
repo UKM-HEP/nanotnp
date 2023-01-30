@@ -59,10 +59,10 @@ if __name__ == "__main__":
     Lumi_ = args.lumi
     Factor_ = args.factor
     Energy_ = args.energy
-    Particle_ = "e^{+}e^{-}" if args.particle == "e" else "$mu^{+}#mu^{-}"
-    if args.jpsi: ranges["pair_mass"] = [ ( 80 , 1   , 7 ) , "Mass (XX) [GeV/c]" ]
+    Particle_ = "e^{+}e^{-}" if args.particle == "e" else "#mu^{+}#mu^{-}"
+    if args.jpsi: ranges["pair_mass"] = [ ( 30 , 2   , 5 ) , "Mass (XX) [GeV/c]" ]
     file_ = args.rootfiles
-    Mc_ = list(filter( lambda x : 'DY' in x.split('/')[-1] , file_ ))
+    Mc_ = list(filter( lambda x : 'DY' in x.split('/')[-1] , file_ )) if not args.jpsi else list(filter( lambda x : 'JPsiToMuMu' in x.split('/')[-1] , file_ ))
     Data_ = list( set(file_) - set(Mc_) )
 
     print( 'NAME     : ', Name_ )

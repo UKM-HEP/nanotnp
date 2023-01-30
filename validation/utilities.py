@@ -275,7 +275,7 @@ def histo1D( hdata , hmc , output , variable , xlabel , ylabel , scale , ratio ,
     c1.cd(1)
     drawCMS( "%s" %scale, "CMS Open Data @ UKM", com )
     if com=="7TeV":
-        drawText("J\#Psi #rightarrow "+sublabel,True)
+        drawText("J/#Psi #rightarrow "+sublabel,True)
     else:
         drawText("Z^{0} #rightarrow "+sublabel,True)
     c1.Update()

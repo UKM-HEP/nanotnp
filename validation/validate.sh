@@ -15,7 +15,7 @@ python plot.py \
        -n 2011runa_u \
        -l 2.33 \
        -e 7TeV \
-       -f 1. \
+       -f 0.1 \
        -p u \
        -j \
        -r \
