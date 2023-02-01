@@ -2,8 +2,9 @@
 
 set -e
 
-NAME=run2012b_electron
-YOURWP=passingMediumWPElectron
+NAME=test
+#YOURWP=passingMediumWPElectron
+YOURWP=passingHLT_IsoMu40_eta2p1
 
 if [ `echo ${PWD} | awk -F "/" '{print $NF}'` != "analysis" ]; then
 

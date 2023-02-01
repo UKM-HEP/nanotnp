@@ -130,7 +130,7 @@ def getAllEffi(info, bindef):
         nP = hP.IntegralAndError(bin1, bin2, eP)
         nF = hF.IntegralAndError(bin1, bin2, eF)
 
-        effis['mcNominal'] = computeEffi(nP, nF, eP, eF)
+        effis['mcNominal'] = computeEffi(nP, nF, eP.value, eF.value)
         rootfile.Close()
     else:
         effis['mcNominal'] = [-1, -1]
@@ -148,7 +148,7 @@ def getAllEffi(info, bindef):
         nP = hP.IntegralAndError(bin1, bin2, eP)
         nF = hF.IntegralAndError(bin1, bin2, eF)
 
-        effis['tagSel'] = computeEffi(nP, nF, eP, eF)
+        effis['tagSel'] = computeEffi(nP, nF, eP.value, eF.value)
         rootfile.Close()
     else:
         effis['tagSel'] = [-1, -1]
@@ -166,7 +166,7 @@ def getAllEffi(info, bindef):
         nP = hP.IntegralAndError(bin1, bin2, eP)
         nF = hF.IntegralAndError(bin1, bin2, eF)
 
-        effis['mcAlt'] = computeEffi(nP, nF, eP, eF)
+        effis['mcAlt'] = computeEffi(nP, nF, eP.value, eF.value)
         rootfile.Close()
     else:
         effis['mcAlt'] = [-1, -1]

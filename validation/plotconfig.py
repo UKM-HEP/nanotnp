@@ -7,8 +7,8 @@
 zboson_ranges = {
     "Tag_pt"     : [ ( 50 , 0.   , 500 ) , "Tagged XXX p_{T} [GeV/c^{2}]" ],
     "Probe_pt"   : [ ( 50 , 0.   , 500 ) , "Probed XXX p_{T} [GeV/c^{2}]" ] ,
-    "Tag_eta"    : [ ( 120 , -3.0 , 3.0 ) , "Tagged XXX #eta" ] ,
-    "Probe_eta"  : [ ( 120 , -3.0 , 3.0 ) , "Probed XXX #eta" ] ,
+    "Tag_eta"    : [ ( 10 , -3.0 , 3.0 ) , "Tagged XXX #eta" ] ,
+    "Probe_eta"  : [ ( 10 , -3.0 , 3.0 ) , "Probed XXX #eta" ] ,
     "pair_mass"  : [ ( 80 , 50   , 130 ) , "Mass (XX) [GeV/c]" ] ,
 }
 
