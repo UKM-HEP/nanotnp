@@ -8,6 +8,8 @@ import numpy as np
 from ROOT import array
 from utilities import *
 
+from plotconfig import *
+
 ROOT.gROOT.SetBatch(True)
 ROOT.ROOT.EnableImplicitMT(10)
 ROOT.TH1.SetDefaultSumw2()
@@ -17,14 +19,6 @@ ROOT.gStyle.SetOptStat(0)
 # Each entry in the dictionary contains of the variable name as key and a tuple
 # specifying the histogram layout as value. The tuple sets the number of bins,
 # the lower edge and the upper edge of the histogram.
-
-ranges = {
-    "Tag_pt"     : [ ( 50 , 0.   , 500 ) , "Tagged XXX p_{T} [GeV/c^{2}]" ],
-    "Probe_pt"   : [ ( 50 , 0.   , 500 ) , "Probed XXX p_{T} [GeV/c^{2}]" ] ,
-    "Tag_eta"    : [ ( 120 , -3.0 , 3.0 ) , "Tagged XXX #eta" ] ,
-    "Probe_eta"  : [ ( 120 , -3.0 , 3.0 ) , "Probed XXX #eta" ] ,
-    "pair_mass"      : [ ( 80 , 50   , 130 ) , "Mass (XX) [GeV/c]" ] ,
-    }
 
 ### RDataframe
 # Book a histogram for a specific variable
@@ -49,7 +43,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument( '-n' , '--name' , type=str , help='DATA Name' )
     parser.add_argument( '-l' , '--lumi' , type=str , help='total luminosity' )
-    parser.add_argument( '-f' , '--factor' , type=str , help='factor in fraction' )
+    parser.add_argument( '-f' , '--factor' , type=str , help='factor in fraction', default="1" )
     parser.add_argument( '-e' , '--energy' , type=str , help='center of mass energy' )
     parser.add_argument( '-p' , '--particle' , type=str , help='particle type' )
     parser.add_argument( '-j', '--jpsi', action='store_true', default=False)
@@ -61,7 +55,7 @@ if __name__ == "__main__":
     Factor_ = args.factor
     Energy_ = args.energy
     Particle_ = "e^{+}e^{-}" if args.particle == "e" else "#mu^{+}#mu^{-}"
-    if args.jpsi: ranges["pair_mass"] = [ ( 30 , 2   , 5 ) , "Mass (XX) [GeV/c]" ]
+    ranges = jpsi_ranges if args.jpsi else zboson_ranges
     file_ = args.rootfiles
     Mc_ = list(filter( lambda x : 'DY' in x.split('/')[-1] , file_ )) if not args.jpsi else list(filter( lambda x : 'JPsiToMuMu' in x.split('/')[-1] , file_ ))
     Data_ = list( set(file_) - set(Mc_) )
@@ -122,6 +116,19 @@ if __name__ == "__main__":
                 ranges[variable][1] = ranges[variable][1].replace('XX', Particle_)
             else:
                 ranges[variable][1] = ranges[variable][1].replace('XXX', "Electron" if Particle_ == "e^{+}e^{-}" else "Muon" )
-            histo1D( hist_data , hist_mc , out_ , variable , ranges[variable][1] , "Events / %.0f GeV" %( pervalue ) , Lumi_ , 4 , True , Energy_ , Particle_ ) #False if 'eta' in variable else True )
+                
+            histo1D(
+                hist_data ,
+                hist_mc ,
+                out_ ,
+                variable ,
+                ranges[variable][1] ,
+                "Events / %.2f GeV" %( pervalue ) if 'eta' in variable else "Events / %.0f GeV" %( pervalue ) ,
+                Lumi_ ,
+                4 ,
+                False if 'eta' in variable else True ,
+                Energy_ ,
+                Particle_
+            )
 
     tfile.Close()
