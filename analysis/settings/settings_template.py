@@ -7,8 +7,9 @@ name = "run2012b_electron"
 
 # flag to be Tested
 flags = {
-    'passingMediumWPElectron' : 'Probe_wp == 3',
-    'passingSoftWPMuon'       : 'Probe_wp == 3'
+    'passingMediumWPElectron'   : 'Probe_wp == 3',
+    'passingSoftWPMuon'         : 'Probe_wp == 3',
+    'passingHLT_IsoMu40_eta2p1' : 'HLT_IsoMu40_eta2p1 == 1'
 }
 
 # output destination
