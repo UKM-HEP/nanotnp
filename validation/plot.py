@@ -30,16 +30,17 @@ ranges = {
 # Book a histogram for a specific variable
 def bookHistogram( df , variable , range_ , factor=None ):
     match="mcTrue*weights" #*tag_TightHWW_SF*probe_TightHWW_SF"
+    cut="1==1" #"Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0"
     probe="1==1"
     flag="1==1"
     
     WEIGHT = match + "*" + factor if factor is not None else "1."
     
     return df.Define( "plotweights" , WEIGHT )\
-             .Filter( "Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0" , "Nominal cut" )\
-             .Filter( flag , "passing flag" )\
-             .Filter( probe , "probe low eta high pt cut" )\
-             .Histo1D( ROOT.ROOT.RDF.TH1DModel(variable, variable, range_[0], range_[1], range_[2]), variable, "plotweights" )
+        .Filter( "1==1" , "Nominal cut" )\
+        .Filter( flag , "passing flag" )\
+        .Filter( probe , "probe low eta high pt cut" )\
+        .Histo1D( ROOT.ROOT.RDF.TH1DModel(variable, variable, range_[0], range_[1], range_[2]), variable, "plotweights" )
 pass
 
 # Loop over all variable names and make a plot for each

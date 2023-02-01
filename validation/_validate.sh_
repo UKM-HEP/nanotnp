@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# -p = particle type: e for electron ; u for muon
+
+# amirul, electron
+#python plot.py \
+#       -n 2012runa_e \
+#       -l 4.43 \
+#       -e 8TeV \
+#       -f 2.9 \
+#       -p e \
+#       -r \
+#       /home/jovyan/data/trimmed/amirul/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root \
+#       /home/jovyan/data/trimmed/amirul/Run2012A_SingleElectron_trimmed/Run2012A_SingleElectron.root
+
+# mohan, muon
+#python plot.py \
+#       -n 2012runa_u \
+#       -l 4.43 \
+#       -e 8TeV \
+#       -f 2.4 \
+#       -p u \
+#       -r \
+#       /home/jovyan/data/trimmed/mohan/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root \
+#       /home/jovyan/data/trimmed/mohan/Run2012A_SingleMu_trimmed/Run2012A_SingleMu.root
+
+# zainol, muon
+#python plot.py \
+#       -n 2012runb_u \
+#       -l 4.43 \
+#       -e 8TeV \
+#       -f 2.9 \
+#       -p e \
+#       -r \
+#       /home/jovyan/data/trimmed/amirul/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root \
+#       /home/jovyan/data/trimmed/amirul/Run2012A_SingleElectron_trimmed/Run2012A_SingleElectron.root
+
+#python plot.py \
+#       -n 2011runa_u \
+#       -l 2.33 \
+#       -e 7TeV \
+#       -f 0.18 \
+#       -p u \
+#       -j \
+#       -r \
+#       /home/jovyan/data/trimmed/jenny/JPsiToMuMu_2MuPEtaFilter_trimmed/JPsiToMuMu_2MuPEtaFilter.root \
+#       /home/jovyan/data/trimmed/jenny/Run2011A_MuOnia_trimmed/Run2011A_MuOnia.root
+
+python plot.py \
+       -n 2011runb_u \
+       -l 2.77 \
+       -e 7TeV \
+       -f 0.08 \
+       -p u \
+       -j \
+       -r \
+       /home/jovyan/data/trimmed/hazim/JPsiToMuMu_2MuPEtaFilter_trimmed/JPsiToMuMu_2MuPEtaFilter.root \
+       /home/jovyan/data/trimmed/hazim/Run2011B_MuOnia_trimmed/Run2011B_MuOnia.root
