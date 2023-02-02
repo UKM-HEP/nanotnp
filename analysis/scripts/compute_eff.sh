@@ -19,7 +19,7 @@ TnP () {
     python tnpEGM_fitter.py settings/${1} --flag ${2} --createBins
     python tnpEGM_fitter.py settings/${1} --flag ${2} --createHist
     python tnpEGM_fitter.py settings/${1} --flag ${2} --doFit
-    #python tnpEGM_fitter.py settings/${1} --flag ${2} --doFit --mcSig --altSig
+    python tnpEGM_fitter.py settings/${1} --flag ${2} --doFit --mcSig --altSig
     python tnpEGM_fitter.py settings/${1} --flag ${2} --doFit --altSig
     python tnpEGM_fitter.py settings/${1} --flag ${2} --doFit --altBkg
     python tnpEGM_fitter.py settings/${1} --flag ${2} --sumUp
