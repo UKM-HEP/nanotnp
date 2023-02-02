@@ -3,7 +3,7 @@ import os
 ########## General settings
 #############################################################
 # Name of your study
-name = "run2011a_u"
+name = "run2012a_u"
 
 # flag to be Tested
 flags = {
@@ -24,10 +24,10 @@ import etc.inputs.tnpOpenData as tnpSamples
 tnpTreeDir = 'events'
 
 samplesDef = {
-    'data'   : tnpSamples.datasets['Run2011A_MuOnia'].clone(),
-    'mcNom'  : tnpSamples.datasets['JPsiToMuMu_2MuPEtaFilter_jenny'].clone(),
-    'mcAlt'  : tnpSamples.datasets['JPsiToMuMu_2MuPEtaFilter_jenny'].clone(),
-    'tagSel' : tnpSamples.datasets['JPsiToMuMu_2MuPEtaFilter_jenny'].clone(),
+    'data'   : tnpSamples.datasets['Run2012B_SingleMu'].clone(),
+    'mcNom'  : tnpSamples.datasets['DYJetsToLL_M-50_TuneZ2Star_mohan'].clone(),
+    'mcAlt'  : tnpSamples.datasets['DYJetsToLL_M-50_TuneZ2Star_mohan'].clone(),
+    'tagSel' : tnpSamples.datasets['DYJetsToLL_M-50_TuneZ2Star_mohan'].clone(),
 }
 
 ## some sample-based cuts... general cuts defined here after
@@ -44,8 +44,8 @@ if not samplesDef['mcNom' ] is None: samplesDef['mcNom' ].set_mcTruth()
 if not samplesDef['mcAlt' ] is None: samplesDef['mcAlt' ].set_mcTruth()
 if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_mcTruth()
 if not samplesDef['tagSel'] is None:
-    samplesDef['tagSel'].rename('mcAltSel_JPsiToMuMu_2MuPEtaFilter')
-    samplesDef['tagSel'].set_cut('Tag_pt > 9') #canceled non trig MVA cut
+    samplesDef['tagSel'].rename('mcAltSel_DYJetsToLL_M-50_TuneZ2Star')
+    samplesDef['tagSel'].set_cut('Tag_pt > 37') #canceled non trig MVA cut
 
 ## set MC weight, simple way (use tree weight) 
 weightName = 'weights'
@@ -57,19 +57,17 @@ if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_weight(weightName)
 ########## bining definition  [can be nD bining]
 #############################################################
 biningDef = [
-    #{ 'var' : 'Probe_eta' , 'type': 'float', 'bins': [ -2.5 , -2.0 , -1.566 , -1.442 , -0.8 , 0.0 , 0.8 , 1.442 , 1.566 , 2.0 , 2.5 ] },
+    { 'var' : 'Probe_eta' , 'type': 'float', 'bins': [ -2.5 , -2.0 , -1.566 , -1.442 , -0.8 , 0.0 , 0.8 , 1.442 , 1.566 , 2.0 , 2.5 ] },
     #{ 'var' : 'Probe_pt' , 'type': 'float', 'bins': [ 10 , 15 , 20 , 35 , 50 , 90 , 150 , 500 ] },
     #{ 'var' : 'Probe_eta' , 'type': 'float', 'bins': [ -2.0 , -1.4 , -0.8 , 0.0 , 0.8 , 1.4 , 2.0 ] },
-    #{ 'var' : 'Probe_pt' , 'type': 'float', 'bins': [ 25 , 35 , 50 , 90 , 150 ] },
-    { 'var' : 'Probe_eta' , 'type': 'float', 'bins': [ -2.0 , -1.4 , -0.8 , 0.0 , 0.8 , 1.4 , 2.0 ] },
-    { 'var' : 'Probe_pt' , 'type': 'float', 'bins': [ 5 , 10 , 15 , 20 , 25 , 60 ] },
+    { 'var' : 'Probe_pt' , 'type': 'float', 'bins': [ 25 , 35 , 50 , 90 , 150 ] },
 ]
 
 #############################################################
 ########## Cuts definition for all samples
 #############################################################
 ### cut
-cutBase   = 'Tag_pt > 6 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0'
+cutBase   = 'Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0'
 
 # can add addtionnal cuts for some bins (first check bin number using tnpEGM --checkBins)
 #additionalCuts = { 
@@ -104,20 +102,15 @@ additionalCuts = None
 tnpParNomFit = [
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.9,0.5,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[0.9,0.5,5.0]",
-    #"acmsP[60.,50.,80.]","betaP[0.05,0.01,0.08]","gammaP[0.1, -2, 2]","peakP[90.0]",
-    #"acmsF[60.,50.,80.]","betaF[0.05,0.01,0.08]","gammaF[0.1, -2, 2]","peakF[90.0]",
-    "acmsP[2.4,2.0.,2.8]","betaP[0.05,0.01,0.08]","gammaP[0.1, -2, 2]","peakP[3.1]",
-    "acmsF[2.4,2.0,2.8]","betaF[0.05,0.01,0.08]","gammaF[0.1, -2, 2]","peakF[3.1]",
+    "acmsP[60.,50.,80.]","betaP[0.05,0.01,0.08]","gammaP[0.1, -2, 2]","peakP[90.0]",
+    "acmsF[60.,50.,80.]","betaF[0.05,0.01,0.08]","gammaF[0.1, -2, 2]","peakF[90.0]",
     ]
 
 tnpParAltSigFit = [
     "meanP[-0.0,-5.0,5.0]","sigmaP[1,0.7,6.0]","alphaP[2.0,1.2,3.5]" ,'nP[3,-5,5]',"sigmaP_2[1.5,0.5,6.0]","sosP[1,0.5,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[2,0.7,15.0]","alphaF[2.0,1.2,3.5]",'nF[3,-5,5]',"sigmaF_2[2.0,0.5,6.0]","sosF[1,0.5,5.0]",
-    #"acmsP[60.,50.,75.]","betaP[0.04,0.01,0.06]","gammaP[0.1, 0.005, 1]","peakP[90.0]",
-    #"acmsF[60.,50.,75.]","betaF[0.04,0.01,0.06]","gammaF[0.1, 0.005, 1]","peakF[90.0]",
-
-    "acmsP[2.4,2.0,2.8]","betaP[0.04,0.01,0.06]","gammaP[0.1, 0.005, 1]","peakP[3.1]",
-    "acmsF[2.4,2.0,2.8]","betaF[0.04,0.01,0.06]","gammaF[0.1, 0.005, 1]","peakF[3.1]",
+    "acmsP[60.,50.,75.]","betaP[0.04,0.01,0.06]","gammaP[0.1, 0.005, 1]","peakP[90.0]",
+    "acmsF[60.,50.,75.]","betaF[0.04,0.01,0.06]","gammaF[0.1, 0.005, 1]","peakF[90.0]",
     ]
      
 tnpParAltBkgFit = [
