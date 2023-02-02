@@ -5,17 +5,17 @@
 # the lower edge and the upper edge of the histogram.
 
 zboson_ranges = {
-    "Tag_pt"     : [ ( 50 , 0.   , 500 ) , "Tagged XXX p_{T} [GeV/c^{2}]" ],
-    "Probe_pt"   : [ ( 50 , 0.   , 500 ) , "Probed XXX p_{T} [GeV/c^{2}]" ] ,
+    "Tag_pt"     : [ ( 80 , 0.   , 400 ) , "Tagged XXX p_{T} [GeV/c^{2}]" ],
+    "Probe_pt"   : [ ( 80 , 0.   , 400 ) , "Probed XXX p_{T} [GeV/c^{2}]" ] ,
     "Tag_eta"    : [ ( 10 , -3.0 , 3.0 ) , "Tagged XXX #eta" ] ,
     "Probe_eta"  : [ ( 10 , -3.0 , 3.0 ) , "Probed XXX #eta" ] ,
-    "pair_mass"  : [ ( 80 , 50   , 130 ) , "Mass (XX) [GeV/c]" ] ,
+    "pair_mass"  : [ ( 30 , 60   , 120 ) , "Mass (XX) [GeV/c]" ] ,
 }
 
 jpsi_ranges = {
-"Tag_pt"     : [ ( 50 , 0.   , 500 ) , "Tagged XXX p_{T} [GeV/c^{2}]" ],
-    "Probe_pt"   : [ ( 50 , 0.   , 500 ) , "Probed XXX p_{T} [GeV/c^{2}]" ] ,
-    "Tag_eta"    : [ ( 120 , -3.0 , 3.0 ) , "Tagged XXX #eta" ] ,
-    "Probe_eta"  : [ ( 120 , -3.0 , 3.0 ) , "Probed XXX #eta" ] ,
+    "Tag_pt"     : [ ( 40 , 0.   , 200 ) , "Tagged XXX p_{T} [GeV/c^{2}]" ],
+    "Probe_pt"   : [ ( 40 , 0.   , 200 ) , "Probed XXX p_{T} [GeV/c^{2}]" ] ,
+    "Tag_eta"    : [ ( 10 , -3.0 , 3.0 ) , "Tagged XXX #eta" ] ,
+    "Probe_eta"  : [ ( 10 , -3.0 , 3.0 ) , "Probed XXX #eta" ] ,
     "pair_mass"  : [ ( 20 , 2   , 4 ) , "Mass (XX) [GeV/c]" ] ,
 }

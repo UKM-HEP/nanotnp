@@ -123,6 +123,7 @@ if __name__ == "__main__":
                 out_ ,
                 variable ,
                 ranges[variable][1] ,
+                "Events / %.2f GeV" %( pervalue ) if 'pair_mass' in variable else "Events / %.0f GeV" %( pervalue ) if args.jpsi else
                 "Events / %.2f GeV" %( pervalue ) if 'eta' in variable else "Events / %.0f GeV" %( pervalue ) ,
                 Lumi_ ,
                 4 ,
