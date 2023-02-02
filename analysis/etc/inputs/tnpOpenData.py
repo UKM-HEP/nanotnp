@@ -21,9 +21,9 @@ datasets = {
     'Run2012B_SingleMu' : tnpSample('Run2012B_SingleMu', opendataDir + 'zainol/Run2012B_SingleMu_trimmed/Run2012B_SingleMu.root', lumi = 4.43 ),
 
     # 2012 9TeV monte carlo
-    'DYJetsToLL_M-50_TuneZ2Star_amirul' : tnpSample('DYJetsToLL_M-50_TuneZ2Star', opendataDir + 'amirul/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root', isMC = True, nEvts = -1 )
-    'DYJetsToLL_M-50_TuneZ2Star_mohan' : tnpSample('DYJetsToLL_M-50_TuneZ2Star', opendataDir + 'mohan/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root', isMC = True, nEvts = -1 )
-    'DYJetsToLL_M-50_TuneZ2Star_zainol' : tnpSample('DYJetsToLL_M-50_TuneZ2Star', opendataDir + 'zainol/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root', isMC = True, nEvts = -1 )
+    'DYJetsToLL_M-50_TuneZ2Star_amirul' : tnpSample('DYJetsToLL_M-50_TuneZ2Star', opendataDir + 'amirul/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root', isMC = True, nEvts = -1 ),
+    'DYJetsToLL_M-50_TuneZ2Star_mohan' : tnpSample('DYJetsToLL_M-50_TuneZ2Star', opendataDir + 'mohan/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root', isMC = True, nEvts = -1 ),
+    'DYJetsToLL_M-50_TuneZ2Star_zainol' : tnpSample('DYJetsToLL_M-50_TuneZ2Star', opendataDir + 'zainol/DYJetsToLL_M-50_TuneZ2Star_trimmed/DYJetsToLL_M-50_TuneZ2Star.root', isMC = True, nEvts = -1 ),
 }
 
 testDir = '/disk01/cms-open-data/trimmed_v1/zainol/'
