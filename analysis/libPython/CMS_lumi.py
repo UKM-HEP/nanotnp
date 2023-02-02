@@ -28,11 +28,12 @@ extraOverCmsTextSize  = 0.76
 lumi_13TeV = "20.1 fb^{-1}"
 lumi_8TeV  = "19.7 fb^{-1}" 
 lumi_7TeV  = "5.1 fb^{-1}"
+lumi_me = "5.1 fb^{-1}"
 lumi_sqrtS = ""
 
 drawLogo      = False
 
-def CMS_lumi(pad,  iPeriod,  iPosX ):
+def CMS_lumi(pad,  iPeriod ,  iPosX ):
     outOfFrame    = False
     if(iPosX/10==0 ): outOfFrame = True
 
@@ -56,6 +57,7 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
     pad.cd()
 
     lumiText = ""
+    
     if( iPeriod==1 ):
         lumiText += lumi_7TeV
         lumiText += " (7 TeV)"
@@ -86,9 +88,9 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
     elif ( iPeriod==12 ):
         lumiText += "8 TeV"
     elif ( iPeriod==0 ):
-        lumiText += lumi_sqrtS
-            
-    print(lumiText)
+        lumiText += lumi_me
+    
+    print('here la , see see ', lumiText)
 
     latex = rt.TLatex()
     latex.SetNDC()

@@ -6,12 +6,13 @@ def mkdir(directory):
         os.makedirs(directory) 
 
 class tnpSample:
-    def __init__(self, sName, path, cut = None, lumi = -1, nEvts = -1, mcTruth = False, puTree = None, isMC = False , weight =None ):
+    def __init__(self, sName, path, cut = None, lumi = -1, energy = None , nEvts = -1, mcTruth = False, puTree = None, isMC = False , weight =None ):
         self.path = []
         self.name = sName
         self.path.append(path)
         self.cut     = cut
         self.lumi    = lumi
+        self.energy  = energy 
         self.nEvts   = nEvts
         self.mcTruth = mcTruth
         self.puTree  = puTree
@@ -51,6 +52,7 @@ class tnpSample:
         else  :
             print('   --- Data sample --- ')
             print('  lumi     : ', self.lumi)
+            print('  com      : ', self.energy,' TeV')
 
     def rename(self, newname):
         self.name = newname

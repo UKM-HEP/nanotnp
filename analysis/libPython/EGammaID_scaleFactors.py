@@ -246,8 +246,8 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     p1.Draw()
 
     leg.Draw()    
-    CMS_lumi.CMS_lumi(c, 4, 10)
-
+    CMS_lumi.CMS_lumi(c, 0, 10)
+    
     #c.Modified()
     #c.Update()
 
@@ -288,9 +288,18 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
 
 
 
-def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
+def doEGM_SFs(filein, lumi, energy , axis = ['pT','eta'] ):
     print(" Opening file: %s (plot lumi: %3.1f)" % ( filein, lumi ))
-    CMS_lumi.lumi_13TeV = "%+3.1f fb^{-1}" % lumi 
+    if energy == "7":
+        CMS_lumi.lumi_7TeV = "%+3.1f fb^{-1}" % lumi
+    elif energy == "8":
+        CMS_lumi.lumi_8TeV = "%+3.1f fb^{-1}" % lumi
+    else:
+        CMS_lumi.lumi_13TeV = "%+3.1f fb^{-1}" % lumi
+
+    CMS_lumi.lumi_sqrtS = "%s TeV" %energy
+
+    CMS_lumi.lumi_me = "%3.2f fb^{-1} (%s TeV)" %(lumi,energy)
 
     nameOutBase = filein 
     if not os.path.exists( filein ) :
@@ -411,6 +420,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='tnp EGM scale factors')
     parser.add_argument('--lumi'  , type = float, default = -1, help = 'Lumi (just for plotting purpose)')
+    parser.add_argument('--ene', type = float, default = -1, help = 'Ene (just for plotting purpose)')
     parser.add_argument('txtFile' , default = None, help = 'EGM formatted txt file')
     parser.add_argument('--PV'    , action  = 'store_true', help = 'plot 1 vs nVtx instead of pT' )
     args = parser.parse_args()
@@ -418,14 +428,14 @@ if __name__ == "__main__":
     if args.txtFile is None:
         print(' - Needs EGM txt file as input')
         sys.exit(1)
-    
 
-    CMS_lumi.lumi_13TeV = "5.5 fb^{-1}"
+    CMS_lumi.lumi_me = "+%3.1f fb^{-1} (%s TeV)" %(lumi,energy)
+        
     CMS_lumi.writeExtraText = 1
-    CMS_lumi.lumi_sqrtS = "13 TeV"
-    
+    CMS_lumi.lumi_sqrtS = "%s TeV" %args.ene
+     
     axis = ['pT','eta']
     if args.PV:
         axis = ['nVtx','eta']
 
-    doEGM_SFs(args.txtFile, args.lumi,axis)
+    doEGM_SFs(args.txtFile, args.lumi , args.ene , axis)
