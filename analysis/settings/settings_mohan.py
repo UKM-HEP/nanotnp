@@ -24,7 +24,7 @@ import etc.inputs.tnpOpenData as tnpSamples
 tnpTreeDir = 'events'
 
 samplesDef = {
-    'data'   : tnpSamples.datasets['Run2012B_SingleMu'].clone(),
+    'data'   : tnpSamples.datasets['Run2012A_SingleMu'].clone(),
     'mcNom'  : tnpSamples.datasets['DYJetsToLL_M-50_TuneZ2Star_mohan'].clone(),
     'mcAlt'  : tnpSamples.datasets['DYJetsToLL_M-50_TuneZ2Star_mohan'].clone(),
     'tagSel' : tnpSamples.datasets['DYJetsToLL_M-50_TuneZ2Star_mohan'].clone(),
@@ -70,29 +70,6 @@ biningDef = [
 cutBase   = 'Tag_pt > 32 && abs(Tag_eta) < 2.17 && Tag_pdgId+Probe_pdgId == 0'
 
 # can add addtionnal cuts for some bins (first check bin number using tnpEGM --checkBins)
-#additionalCuts = { 
-#    0 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    1 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    2 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    3 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    4 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    5 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    6 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    7 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    8 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    9 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    10 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    11 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    12 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    13 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    14 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    15 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    16 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    17 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    18 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#    19 : 'tag_Ele_trigMVA > 0.92 && sqrt( 2*event_met_pfmet*Tag_pt*(1-cos(event_met_pfphi-Tag_phi))) < 45',
-#}
-
 #### or remove any additional cut (default)
 additionalCuts = None
 
