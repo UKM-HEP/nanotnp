@@ -2,35 +2,35 @@ using namespace RooFit;
 
 double* doFit(string condition, string MuonID_str, string quant, double* init_conditions, bool save = true) // RETURNS ARRAY WITH [yield_all, yield_pass, err_all, err_pass]    ->   OUTPUT ARRAY
 {
-    TFile *file0    = TFile::Open("DATA/Upsilon/trackerMuon/T&P_UPSILON_DATA.root");
-    TTree *DataTree = (TTree*)file0->Get(("UPSILON_DATA"));
+    TFile *file0    = TFile::Open("/Users/shoh/Works/trimmed_v1/jenny/Run2011A_MuOnia_trimmed/Run2011A_MuOnia.root");
+    TTree *DataTree = (TTree*)file0->Get(("events"));
     
-    double _mmin = 9;  double _mmax = 10.8;
+    double _mmin = 2.;  double _mmax = 5.;
     
-    RooRealVar MuonID(MuonID_str.c_str(), MuonID_str.c_str(), 0, 1); //Muon_Id
+    RooRealVar MuonID(MuonID_str.c_str(), MuonID_str.c_str(), 0, 7); //Muon_Id
     
-    RooRealVar InvariantMass("InvariantMass", "InvariantMass", _mmin, _mmax);
+    RooRealVar InvariantMass("pair_mass", "pair_mass", _mmin, _mmax);
     
     double* limits = new double[2];
-    if (quant == "Pt") {
-        limits[0] = 0;
-        limits[1] = 40;
+    if (quant == "pt") {
+        limits[0] = 0.;
+        limits[1] = 40.;
     }
-    if (quant == "Eta") {
-        limits[0] = -3;
-        limits[1] = 3;
+    if (quant == "eta") {
+        limits[0] = -3.;
+        limits[1] = 3.;
     }
-    if (quant == "Phi") {
-        limits[0] = -2;
-        limits[1] = 2;
+    if (quant == "phi") {
+        limits[0] = -2.;
+        limits[1] = 2.;
     }
-    RooRealVar quantity(("ProbeMuon_" + quant).c_str(), ("ProbeMuon_" + quant).c_str(), limits[0], limits[1]);
+    RooRealVar quantity(("Probe_" + quant).c_str(), ("Probe_" + quant).c_str(), limits[0], limits[1]);
     
     RooFormulaVar* redeuce = new RooFormulaVar("PPTM", condition.c_str(), RooArgList(quantity));
     RooDataSet *Data_ALL    = new RooDataSet("DATA", "DATA", DataTree, RooArgSet(InvariantMass, MuonID, quantity),*redeuce);
-    RooFormulaVar* cutvar = new RooFormulaVar("PPTM", (condition + " && " + MuonID_str + " == 1").c_str() , RooArgList(MuonID, quantity));
 
-    RooDataSet *Data_PASSING = new RooDataSet("DATA_PASS", "DATA_PASS", DataTree, RooArgSet(InvariantMass, MuonID, quantity), *cutvar);//
+    RooFormulaVar* cutvar = new RooFormulaVar("PPTM", (condition + " && " + MuonID_str + " == 3").c_str() , RooArgList(MuonID, quantity));
+    RooDataSet *Data_PASSING = new RooDataSet("DATA_PASS", "DATA_PASS", DataTree, RooArgSet(InvariantMass, MuonID, quantity), *cutvar);
     
     RooDataHist* dh_ALL     = Data_ALL->binnedClone();
     RooDataHist* dh_PASSING = Data_PASSING->binnedClone();
@@ -39,9 +39,10 @@ double* doFit(string condition, string MuonID_str, string quant, double* init_co
     TCanvas* c_pass = new TCanvas;
     
     RooPlot *frame = InvariantMass.frame(RooFit::Title("Invariant Mass"));
+
     // BACKGROUND VARIABLES
-    RooRealVar a0("a0", "a0", 0, -10, 10);
-    RooRealVar a1("a1", "a1", 0, -10, 10);
+    RooRealVar a0("a0", "a0", 0.5, 0., 1.);
+    RooRealVar a1("a1", "a1", 0.5, 0., 1.);
 
     // BACKGROUND FUNCTION
     RooChebychev background("background","background", InvariantMass, RooArgList(a0,a1));
@@ -54,12 +55,13 @@ double* doFit(string condition, string MuonID_str, string quant, double* init_co
     // CRYSTAL BALL VARIABLES
     RooRealVar alpha("alpha","alpha", 1.4384e+00);
     RooRealVar n("n", "n", 1.6474e+01);
+
     // FIT FUNCTIONS
     RooCBShape  gaussian1("signal1","signal1",InvariantMass,mean1,sigma, alpha, n);
     RooGaussian gaussian2("signal2","signal2",InvariantMass,mean2,sigma);
     RooGaussian gaussian3("signal3","signal3",InvariantMass,mean3,sigma);
     
-    double n_signal_initial1 =(Data_ALL->sumEntries(TString::Format("abs(InvariantMass-%g)<0.015",init_conditions[1]))-Data_ALL->sumEntries(TString::Format("abs(InvariantMass-%g)<0.030&&abs(InvariantMass-%g)>.015",init_conditions[1],init_conditions[1]))) / Data_ALL->sumEntries();
+    double n_signal_initial1 =(Data_ALL->sumEntries(TString::Format("abs(pair_mass-%g)<0.015",init_conditions[1]))-Data_ALL->sumEntries(TString::Format("abs(pair_mass-%g)<0.030&&abs(pair_mass-%g)>.015",init_conditions[1],init_conditions[1]))) / Data_ALL->sumEntries();
     double n_signal_initial2 =(Data_ALL->sumEntries(TString::Format("abs(InvariantMass-%g)<0.015",init_conditions[2]))-Data_ALL->sumEntries(TString::Format("abs(InvariantMass-%g)<0.030&&abs(InvariantMass-%g)>.015",init_conditions[2],init_conditions[2]))) / Data_ALL->sumEntries();
     double n_signal_initial3 =(Data_ALL->sumEntries(TString::Format("abs(InvariantMass-%g)<0.015",init_conditions[3]))-Data_ALL->sumEntries(TString::Format("abs(InvariantMass-%g)<0.030&&abs(InvariantMass-%g)>.015",init_conditions[3],init_conditions[3]))) / Data_ALL->sumEntries();
     
@@ -72,7 +74,7 @@ double* doFit(string condition, string MuonID_str, string quant, double* init_co
     
     signal      = new RooAddPdf("signal", "signal", RooArgList(gaussian1, gaussian2,gaussian3), RooArgList(frac1, frac2));
     double n_back_initial = 1. - n_signal_initial1 - n_signal_initial2 -n_signal_initial3;
-    
+
     RooRealVar n_signal_total("n_signal_total","n_signal_total",n_signal_initial_total,0.,Data_ALL->sumEntries());
     RooRealVar n_signal_total_pass("n_signal_total_pass","n_signal_total_pass",n_signal_initial_total,0.,Data_PASSING->sumEntries());
     
@@ -91,7 +93,7 @@ double* doFit(string condition, string MuonID_str, string quant, double* init_co
     
     RooDataHist combData("combData","combined data",InvariantMass,Index(sample),Import("ALL",*dh_ALL),Import("PASSING",*dh_PASSING));
     
-    RooSimultaneous simPdf("simPdf","simultaneous pdf",sample) ;
+    RooSimultaneous simPdf("simPdf","simultaneous pdf",sample);
     
     simPdf.addPdf(*model,"ALL");
     simPdf.addPdf(*model_pass,"PASSING");
@@ -117,8 +119,8 @@ double* doFit(string condition, string MuonID_str, string quant, double* init_co
     
     model->plotOn(frame);
     model->plotOn(frame,RooFit::Components("signal1"),RooFit::LineStyle(kDashed),RooFit::LineColor(kGreen));
-    model->plotOn(frame,RooFit::Components("signal2"),RooFit::LineStyle(kDashed),RooFit::LineColor(kMagenta - 5));
-    model->plotOn(frame,RooFit::Components("signal3"),RooFit::LineStyle(kDashed),RooFit::LineColor(kOrange));
+    //model->plotOn(frame,RooFit::Components("signal2"),RooFit::LineStyle(kDashed),RooFit::LineColor(kMagenta - 5));
+    //model->plotOn(frame,RooFit::Components("signal3"),RooFit::LineStyle(kDashed),RooFit::LineColor(kOrange));
     model->plotOn(frame,RooFit::Components("background"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed));
     
     c_all->cd();
@@ -134,16 +136,16 @@ double* doFit(string condition, string MuonID_str, string quant, double* init_co
     
     model_pass->plotOn(frame_pass);
     model_pass->plotOn(frame_pass,RooFit::Components("signal1"),RooFit::LineStyle(kDashed),RooFit::LineColor(kGreen));
-    model_pass->plotOn(frame_pass,RooFit::Components("signal2"),RooFit::LineStyle(kDashed),RooFit::LineColor(kMagenta - 5));
-    model_pass->plotOn(frame_pass,RooFit::Components("signal3"),RooFit::LineStyle(kDashed),RooFit::LineColor(kOrange));
+    //model_pass->plotOn(frame_pass,RooFit::Components("signal2"),RooFit::LineStyle(kDashed),RooFit::LineColor(kMagenta - 5));
+    //model_pass->plotOn(frame_pass,RooFit::Components("signal3"),RooFit::LineStyle(kDashed),RooFit::LineColor(kOrange));
     model_pass->plotOn(frame_pass,RooFit::Components("background"),RooFit::LineStyle(kDashed),RooFit::LineColor(kRed));
     
     frame_pass->Draw();
 
     if(save)
     {
-        c_pass->SaveAs(("Fit Result/" + condition + "_ALL.pdf").c_str());
-        c_all->SaveAs (("Fit Result/" + condition + "_PASS.pdf").c_str());
+        c_pass->SaveAs(("Fit_Result/" + condition + "_ALL.pdf").c_str());
+        c_all->SaveAs (("Fit_Result/" + condition + "_PASS.pdf").c_str());
     }
         
     // DELETING ALLOCATED MEMORY

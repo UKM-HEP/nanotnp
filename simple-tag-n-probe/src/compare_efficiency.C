@@ -53,17 +53,17 @@ void compare_plot(TFile *file0, TFile *file1, const char* path, string quantity)
     pEff0->Draw();
     gPad->Update();
     
-    if (quantity == "Pt")
+    if (quantity == "pt")
     {
-        pEff0->SetTitle("Efficiency of Tracker Probe Muon;_{p}T (GeV/c);Efficiency");
+        pEff0->SetTitle("Efficiency of Probe Muon;_{p}T (GeV/c);Efficiency");
     }
-    if (quantity == "Eta")
+    if (quantity == "eta")
     {
-        pEff0->SetTitle("Efficiency of Tracker Probe Muon;#eta;Efficiency");
+        pEff0->SetTitle("Efficiency of Probe Muon;#eta;Efficiency");
     }
-    if (quantity == "Phi")
+    if (quantity == "phi")
     {
-        pEff0->SetTitle("Efficiency of Tracker Probe Muon;#phi;Efficiency");
+        pEff0->SetTitle("Efficiency of Probe Muon;#phi;Efficiency");
     }
 
     pEff1->SetMarkerColor(colorScheme[useScheme][1]);
@@ -77,21 +77,23 @@ void compare_plot(TFile *file0, TFile *file1, const char* path, string quantity)
     graph->SetMaximum(1.2);
     gPad->Update();
 
-     if (quantity == "Pt")
+     if (quantity == "pt")
      {
         pEff0->GetPaintedGraph()->GetHistogram()->GetXaxis()->SetRangeUser(0.,80.);
-        graph->SetMinimum(0.5);
-        graph->SetMaximum(1.2);
+        //graph->SetMinimum(0.5);
+        //graph->SetMaximum(1.2);
+        graph->SetMinimum(0.0);
+        graph->SetMaximum(0.52);
      }
     
-    if (quantity == "Eta")
+    if (quantity == "eta")
     {
         pEff0->GetPaintedGraph()->GetHistogram()->GetXaxis()->SetRangeUser(-3.,3.);
         graph->SetMinimum(0.8);
         graph->SetMaximum(1.08);
     }
     
-    if (quantity == "Phi")
+    if (quantity == "phi")
     {
         pEff0->GetPaintedGraph()->GetHistogram()->GetXaxis()->SetRangeUser(-3.,3.);
         graph->SetMinimum(0.8);
@@ -113,8 +115,32 @@ void compare_plot(TFile *file0, TFile *file1, const char* path, string quantity)
     txCOD->SetNDC(kTRUE);
     txCOD->DrawLatex(0.14,0.85,Form("#bf{CMS Open Data}"));
 
+    // processes
+    TLatex* proc = new TLatex();
+    proc->SetNDC();
+    proc->SetTextAngle(0);
+    proc->SetTextColor(kBlack);
+    
+    proc->SetTextFont(42);
+    proc->SetTextAlign(12); 
+    proc->SetTextSize(0.04);
+
+    proc->DrawLatex(0.41,0.85,"J/#psi #rightarrow #mu^{+} + #mu^{-}");
+
+    // Luminosity 
+    TLatex* lumi = new TLatex();
+    lumi->SetNDC();
+    lumi->SetTextAngle(0);
+    lumi->SetTextColor(kBlack);
+    
+    lumi->SetTextFont(42);
+    lumi->SetTextAlign(12); 
+    lumi->SetTextSize(0.04);
+
+    lumi->DrawLatex(0.8,0.96,"2.33 fb^{-1} (7 TeV)");
+
     //Results stored in...
-    const char* directoryToSave = "Comparison Run2011 vs MC/";
+    const char* directoryToSave = "Comparison_Run_vs_MC/";
 
     //Check if dir exists
     if (gSystem->AccessPathName(directoryToSave))

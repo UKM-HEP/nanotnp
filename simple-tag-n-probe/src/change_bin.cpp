@@ -9,7 +9,7 @@ void change_bin(int bin_iD, string condition, string MuonId, string quantity, bo
     
     double * values = new double[4];
     
-    values = doFit(condition, MuonId, quantity, init_conditions);
+    values = doFit_new(condition, MuonId, quantity, init_conditions);
     
     hist_all->SetBinContent(bin_iD, values[0]);
     hist_all->SetBinError(bin_iD, values[2]);

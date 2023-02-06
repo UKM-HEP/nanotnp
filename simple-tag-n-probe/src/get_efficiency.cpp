@@ -6,7 +6,7 @@ TEfficiency* get_efficiency(TH1F* ALL, TH1F* PASS, string quantity, bool DataIsM
     gSystem->cd(quantity.c_str());
     
     string* file_name = new string[2];
-    file_name[0] = "Efficiency_Run2011.root";
+    file_name[0] = "Efficiency_DATA.root";
     file_name[1] = "Efficiency_MC.root";
     
     TFile* pFile = new TFile(file_name[DataIsMc].c_str(),"recreate");
