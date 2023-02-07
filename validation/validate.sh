@@ -3,24 +3,13 @@
 set -e
 
 #baseDir=/home/jovyan/data
-baseDir=/disk01/cms-open-data
-
-# test
-#python plot.py \
-#       -n test2012runb_u \
-#       -l 4.43 \
-#       -e 8TeV \
-#       -f 8. \
-#       -p u \
-#       -r \
-#       ../DYJetsToLL_M-50_TuneZ2Star.root \
-#       ../Run2012B_SingleMu.root
-
+#baseDir=/disk01/cms-open-data
+baseDir=/home/shoh/Works/cmsopendata
 
 # amirul, electron
 python plot.py \
        -n 2012runa_e \
-       -l 4.43 \
+       -l 0.89 \
        -e 8TeV \
        -p e \
        -r \
@@ -30,7 +19,7 @@ python plot.py \
 # mohan, muon
 python plot.py \
        -n 2012runa_u \
-       -l 4.43 \
+       -l 0.89 \
        -e 8TeV \
        -p u \
        -r \

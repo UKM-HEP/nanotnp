@@ -49,8 +49,8 @@ def drawCMS(lumi, text, com_, onTop=False ):
     if not onTop: latex.SetTextAlign(11)
     latex.SetTextFont(62)
     latex.SetTextSize(0.05 if len(text)>0 else 0.06)
-    if not onTop: latex.DrawLatex(0.15, 0.87 if len(text)>0 else 0.84, "CMS")
-    else: latex.DrawLatex(0.20, 0.99, "CMS")
+    if not onTop: latex.DrawLatex(0.15, 0.87 if len(text)>0 else 0.84, "CMS preliminary")
+    else: latex.DrawLatex(0.20, 0.99, "CMS preliminary")
     latex.SetTextSize(0.04)
     latex.SetTextFont(52)
     if not onTop: latex.DrawLatex(0.15, 0.83, text)
@@ -273,11 +273,12 @@ def histo1D( hdata , hmc , output , variable , xlabel , ylabel , scale , ratio ,
     gPad.Modified()
     gPad.Update()
     c1.cd(1)
-    drawCMS( "%s" %scale, "CMS Open Data @ UKM", com )
+    drawCMS( "%s" %scale, "CMS Open Data", com )
+    
     if com=="7TeV":
-        drawText("J/#Psi #rightarrow "+sublabel,True)
+        drawText("J/#Psi #rightarrow "+sublabel,False)
     else:
-        drawText("Z^{0} #rightarrow "+sublabel,True)
+        drawText("Z^{0} #rightarrow "+sublabel,False)
     c1.Update()
 
     print( "{}/{}.pdf".format( output , variable) )
