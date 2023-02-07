@@ -2,10 +2,12 @@ using namespace RooFit;
 
 double* doFit_new(string condition, string MuonID_str, string quant, double* init_conditions, bool save = true) // RETURNS ARRAY WITH [yield_all, yield_pass, err_all, err_pass]    ->   OUTPUT ARRAY
 {
-    TFile *file0    = TFile::Open("/Users/shoh/Works/trimmed_v1/jenny/Run2011A_MuOnia_trimmed/Run2011A_MuOnia.root");
+  TFile *file0    = TFile::Open("/home/shoh/Works/cmsopendata/trimmed_v1/jenny/Run2011A_MuOnia_trimmed/Run2011A_MuOnia.root");
+  //TFile *file0    = TFile::Open("/home/shoh/Works/cmsopendata/trimmed_v1/hazim/Run2011B_MuOnia_trimmed/Run2011B_MuOnia.root");
     TTree *DataTree = (TTree*)file0->Get(("events"));
     
-    double _mmin = 2.4;  double _mmax = 4.;
+    double _mmin = 2.7;  double _mmax = 3.4;
+    //double _mmin = 2.9;  double _mmax = 3.3;
     
     // Testing the flag
     RooRealVar MuonID(MuonID_str.c_str(), MuonID_str.c_str(), 0, 7); //Muon_Id

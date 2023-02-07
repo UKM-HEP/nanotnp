@@ -1,7 +1,8 @@
 
 double* McYield(string condition, string quant, string MuonID_str = "Probe_wp")
 {
-    TFile *file0    = TFile::Open("/Users/shoh/Works/trimmed_v1/jenny/JPsiToMuMu_2MuPEtaFilter_trimmed/JPsiToMuMu_2MuPEtaFilter.root");
+  TFile *file0    = TFile::Open("/home/shoh/Works/cmsopendata/trimmed_v1/jenny/JPsiToMuMu_2MuPEtaFilter_trimmed/JPsiToMuMu_2MuPEtaFilter.root");
+  //TFile *file0    = TFile::Open("/home/shoh/Works/cmsopendata/trimmed_v1/hazim/JPsiToMuMu_2MuPEtaFilter_trimmed/JPsiToMuMu_2MuPEtaFilter.root");
     TTree *DataTree = (TTree*)file0->Get(("events"));
     
     double _mmin = 2.;  double _mmax = 5.;

@@ -9,7 +9,7 @@
 void Efficiency()
 {
     //We start by declaring the nature of our dataset. (Is the data real or simulated?)
-    bool DataIsMC   = true;
+    bool DataIsMC   = false;
     //Which Muon Id do you want to study?
     //string MuonId   = "PassingProbeTrackingMuon";
     string MuonId = "Probe_wp";
@@ -27,11 +27,20 @@ void Efficiency()
     double *init_conditions = new double[4];
     /*-----------------------------------I N S E R T    C O D E    H E R E-----------------------------------*/
     init_conditions[0] = 3.1; /*peak1-starting*/
-    init_conditions[1] = 2.7; /*peak1-min*/
-    init_conditions[2] = 3.4; /*peak2-max*/
+    init_conditions[1] = 2.9; /*peak1-min*/
+    init_conditions[2] = 3.2; /*peak2-max*/
     init_conditions[3] = 0.001; /*sigma-starting*/
     init_conditions[4] = 0.01; /*sigma-min*/
     init_conditions[5] = 0.1; /*sigma-max*/
+    /*------------------------------------------------------------------------------------------------------*/
+
+    //init_conditions[0] = 3.1; /*peak1-starting*/
+    //init_conditions[1] = 3.0; /*peak1-min*/
+    //init_conditions[2] = 3.2; /*peak2-max*/
+    //init_conditions[3] = 0.001; /*sigma-starting*/
+    //init_conditions[4] = 0.01; /*sigma-min*/
+    //init_conditions[5] = 0.10; /*sigma-max*/
+
     /*------------------------------------------------------------------------------------------------------*/
     
     string* conditions = get_conditions(bin_n, bins, "Probe_" + quantity);
@@ -61,7 +70,7 @@ void Efficiency()
     //If all of the fits seem correct we can proceed to generate the efficiency
     TEfficiency* effplot = get_efficiency(yield_ALL, yield_PASS, quantity, DataIsMC);
     
-    //effplot->Draw();
+    effplot->Draw();
     effplot->Write();
     EfficiencyFile->Close();
     //In case you want to change the fit on a specific, comment the loop and "result saving" code and uncomment the following function

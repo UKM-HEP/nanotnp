@@ -55,7 +55,7 @@ void compare_plot(TFile *file0, TFile *file1, const char* path, string quantity)
     
     if (quantity == "pt")
     {
-        pEff0->SetTitle("Efficiency of Probe Muon;_{p}T (GeV/c);Efficiency");
+        pEff0->SetTitle("Efficiency of Probe Muon;P_{T} (GeV/c);Efficiency");
     }
     if (quantity == "eta")
     {
@@ -83,7 +83,7 @@ void compare_plot(TFile *file0, TFile *file1, const char* path, string quantity)
         //graph->SetMinimum(0.5);
         //graph->SetMaximum(1.2);
         graph->SetMinimum(0.0);
-        graph->SetMaximum(0.52);
+        graph->SetMaximum(0.45);
      }
     
     if (quantity == "eta")
@@ -107,13 +107,21 @@ void compare_plot(TFile *file0, TFile *file1, const char* path, string quantity)
     tl->AddEntry(pEff1, nameScheme[useScheme][1],   "lp");
     tl->Draw();
 
+    // CMS preliminary
+    TLatex* txCP = new TLatex();
+    txCP->SetTextSize(0.04);
+    txCP->SetTextAlign(33);
+    txCP->SetTextFont(42);
+    txCP->SetNDC(kTRUE);
+    txCP->DrawLatex(0.33,0.91,Form("#bf{CMS} preliminary"));
+
     //CMS Open Data
     TLatex* txCOD = new TLatex();
     txCOD->SetTextSize(0.04);
-    txCOD->SetTextAlign(12);
+    txCOD->SetTextAlign(33);
     txCOD->SetTextFont(42);
     txCOD->SetNDC(kTRUE);
-    txCOD->DrawLatex(0.14,0.85,Form("#bf{CMS Open Data}"));
+    txCOD->DrawLatex(0.33,0.85,Form("CMS Open Data"));
 
     // processes
     TLatex* proc = new TLatex();
@@ -137,8 +145,9 @@ void compare_plot(TFile *file0, TFile *file1, const char* path, string quantity)
     lumi->SetTextAlign(12); 
     lumi->SetTextSize(0.04);
 
+    //lumi->DrawLatex(0.8,0.96,"2.77 fb^{-1} (7 TeV)");
     lumi->DrawLatex(0.8,0.96,"2.33 fb^{-1} (7 TeV)");
-
+    
     //Results stored in...
     const char* directoryToSave = "Comparison_Run_vs_MC/";
 
